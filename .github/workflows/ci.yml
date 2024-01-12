@@ -1,4 +1,4 @@
-name: NestJS MVC Webapp
+name: tests
 on:
   push:
   workflow_dispatch:
@@ -9,9 +9,6 @@ jobs:
     uses: ./.github/workflows/bun.yml
   nestjs-mvc-webapp:
     needs: bun
-    environment:
-      name: ci
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,4 +34,28 @@ jobs:
       - run: cd nestjs-mvc-webapp ; bun deployment
       - run: bunx wait-port 3000
       - run: curl 0:3000/
-      - run: cd nestjs-mvc-webapp ; bun undeploy
+      - run: cd nestjs-mvc-webapp ; bun stop ; bun undeploy
+  flask-mvc-webapp:
+    needs: bun
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - uses: actions/cache@v3
+        id: ci
+        with:
+          path: |
+            !~/.m2
+            ~/.bun
+            ~/.npm
+            ~/.node
+          key: ${{ runner.os }}-${{ hashFiles('**/workflows/*.yml', '**/package.json') }}
+      - run: echo "${{ needs.bun.outputs.BUN_BIN }}" >> "$GITHUB_PATH"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.7
+      - run: cd flask-mvc-webapp ; bun install -E ; bun deployment
+      - run: bunx wait-port 5000
+      - run: curl 0:5000/
+      - run: cd flask-mvc-webapp ; bun stop ; bun undeploy

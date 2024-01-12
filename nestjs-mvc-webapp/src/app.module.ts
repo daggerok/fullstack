@@ -8,7 +8,7 @@ import { HandlebarsModule } from '@gboutte/nestjs-hbs';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'), // => $rootDir/public
+      rootPath: join(__dirname, '..', 'static'), // => $rootDir/static
     }),
     HandlebarsModule.forRoot({
       templateDirectory: 'templates', // => $rootDir/templates

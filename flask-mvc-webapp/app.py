@@ -1,8 +1,8 @@
 from flask import Flask, render_template
-from pybars import Compiler
+from gevent.pywsgi import WSGIServer
 
-app = Flask(__name__)
-compiler = Compiler()
+
+app = Flask(__name__, static_url_path='')
 
 
 @app.route('/')
@@ -12,4 +12,5 @@ def get_index_page():
 
 
 if __name__ == '__main__':
-    app.run()
+    http_server = WSGIServer(('0.0.0.0', 3000), app)
+    http_server.serve_forever()

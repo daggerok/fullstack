@@ -1,4 +1,4 @@
-# nestjs-mvc-webapp
+# nestjs-mvc-webapp [![NestJS MVC Webapp](https://github.com/daggerok/fullstack/actions/workflows/nestjs-mvc-webapp.yml/badge.svg)](https://github.com/daggerok/fullstack/actions/workflows/nestjs-mvc-webapp.yml)
 
 Install bun:
 

@@ -55,7 +55,9 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.11.7
-      - run: cd flask-mvc-webapp ; bun install -E ; bun deployment
+      - run: cd flask-mvc-webapp ; bun install -E
+      - run: cd flask-mvc-webapp ; bun run test
+      - run: cd flask-mvc-webapp ; bun deployment
       - run: bunx wait-port 5000
       - run: curl 0:5000/
       - run: cd flask-mvc-webapp ; bun stop ; bun undeploy

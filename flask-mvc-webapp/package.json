@@ -4,7 +4,10 @@
     "pm2": "5.3.0"
   },
   "scripts": {
-    "predeployment": "source .venv/bin/activate ; pip install -r requirements.txt",
+    "postinstall": "python3 -m venv .venv ; source .venv/bin/activate",
+    "pretest": "pip install -r requirements.txt -r requirements-dev.txt",
+    "test": "pytest -v tests.py",
+    "predeployment": "pip install -r requirements.txt",
     "deployment": "pm2 start 'python3 app.py' --name app",
     "ls": "pm2 ls",
     "show": "pm2 show app",

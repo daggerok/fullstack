@@ -1,4 +1,4 @@
-name: CI
+name: NestJS MVC Webapp
 on:
   push:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
 jobs:
   bun:
     uses: ./.github/workflows/bun.yml
-  nestjs-fullstack-webapp:
+  nestjs-mvc-webapp:
     needs: bun
     environment:
       name: ci
@@ -28,13 +28,13 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/workflows/*.yml', '**/package.json') }}
       - run: echo "${{ needs.bun.outputs.BUN_BIN }}" >> "$GITHUB_PATH"
       - run: |
-          cd nestjs-fullstack-webapp
+          cd nestjs-mvc-webapp
           bun install -E
           bun test
           bun test:e2e
           bun lint
           echo $?
-      - run: cd nestjs-fullstack-webapp ; bun run deploy
+      - run: cd nestjs-mvc-webapp ; bun deployment
       - run: bunx wait-port 3000
       - run: curl 0:3000/
-      - run: cd nestjs-fullstack-webapp ; bun undeploy
+      - run: cd nestjs-mvc-webapp ; bun undeploy

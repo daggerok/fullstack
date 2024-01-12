@@ -1,3 +1,36 @@
+# nestjs-mvc-webapp
+
+Install bun:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+bun -v # 1.0.21
+```
+
+Setup nestjs project:
+
+```bash
+bunx @nestjs/cli new nestjs-01-getting-started
+```
+
+Testing and linting
+
+```bash
+bun test
+bun test:e2e
+bun lint
+```
+
+Integration testing
+
+```bash
+bun deployment
+curl 0:8080/
+bun undeploy
+```
+
+<!--
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -71,3 +104,5 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+-->

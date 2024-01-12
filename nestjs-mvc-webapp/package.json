@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-fullstack-webapp",
+  "name": "nestjs-mvc-webapp",
   "version": "0.0.1",
   "description": "NestJS TypeScript Handlebars Web / REST API project",
   "author": "Maksim Kostromin",
@@ -18,8 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "predeploy": "bun run build",
-    "deploy": "pm2 start 'bun start:prod' --name app",
+    "predeployment": "bun run build",
+    "deployment": "pm2 start 'bun start:prod' --name app",
     "ls": "pm2 ls",
     "show": "pm2 show app",
     "redeploy": "pm2 restart app",

@@ -1,0 +1,40 @@
+name: CI
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  bun:
+    uses: ./.github/workflows/bun.yml
+  nestjs-fullstack-webapp:
+    needs: bun
+    environment:
+      name: ci
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - uses: actions/cache@v3
+        id: ci
+        with:
+          path: |
+            !~/.m2
+            ~/.bun
+            ~/.npm
+            ~/.node
+          key: ${{ runner.os }}-${{ hashFiles('**/workflows/*.yml', '**/package.json') }}
+      - run: echo "${{ needs.bun.outputs.BUN_BIN }}" >> "$GITHUB_PATH"
+      - run: |
+          cd nestjs-fullstack-webapp
+          bun install -E
+          bun test
+          bun test:e2e
+          bun lint
+          echo $?
+      - run: cd nestjs-fullstack-webapp ; bun run deploy
+      - run: bunx wait-port 3000
+      - run: curl 0:3000/
+      - run: cd nestjs-fullstack-webapp ; bun undeploy

@@ -58,6 +58,6 @@ jobs:
       - run: cd flask-mvc-webapp ; bun install -E
       - run: cd flask-mvc-webapp ; bun run test
       - run: cd flask-mvc-webapp ; bun deployment
-      - run: bunx wait-port 5000
-      - run: curl 0:5000/
+      - run: bunx wait-port 3000
+      - run: curl 0:3000/
       - run: cd flask-mvc-webapp ; bun stop ; bun undeploy

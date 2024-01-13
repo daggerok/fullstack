@@ -6,9 +6,9 @@
   "scripts": {
     "postinstall": "python3 -m venv .venv ; source .venv/bin/activate",
     "pretest": "pip install -r requirements.txt -r requirements-dev.txt",
-    "test": "pytest -v tests.py",
+    "test": "pytest -v tests",
     "predeployment": "pip install -r requirements.txt",
-    "deployment": "pm2 start 'python3 app.py' --name app",
+    "deployment": "pm2 start 'python3 src/app.py' --name app",
     "ls": "pm2 ls",
     "show": "pm2 show app",
     "redeploy": "pm2 restart app",

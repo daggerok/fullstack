@@ -36,6 +36,32 @@ jobs:
       - run: curl 0:3000/
       - run: cd nestjs-mvc-webapp ; bun stop ; bun undeploy
   flask-mvc-webapp:
+        needs: bun
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+            with:
+              fetch-depth: 2
+          - uses: actions/cache@v3
+            id: ci
+            with:
+              path: |
+                !~/.m2
+                ~/.bun
+                ~/.npm
+                ~/.node
+              key: ${{ runner.os }}-${{ hashFiles('**/workflows/*.yml', '**/package.json') }}
+          - run: echo "${{ needs.bun.outputs.BUN_BIN }}" >> "$GITHUB_PATH"
+          - uses: actions/setup-python@v4
+            with:
+              python-version: 3.11.7
+          - run: cd flask-mvc-webapp ; bun i -E
+          - run: cd flask-mvc-webapp ; bun run test
+          - run: cd flask-mvc-webapp ; bun deployment
+          - run: bunx wait-port 3000
+          - run: curl 0:3000/
+          - run: cd flask-mvc-webapp ; bun stop ; bun undeploy
+  fiber-mvc-webapp:
     needs: bun
     runs-on: ubuntu-latest
     steps:
@@ -52,12 +78,17 @@ jobs:
             ~/.node
           key: ${{ runner.os }}-${{ hashFiles('**/workflows/*.yml', '**/package.json') }}
       - run: echo "${{ needs.bun.outputs.BUN_BIN }}" >> "$GITHUB_PATH"
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-go@v4
         with:
-          python-version: 3.11.7
-      - run: cd flask-mvc-webapp ; bun i -E
-      - run: cd flask-mvc-webapp ; bun run test
-      - run: cd flask-mvc-webapp ; bun deployment
-      - run: bunx wait-port 3000
-      - run: curl 0:3000/
-      - run: cd flask-mvc-webapp ; bun stop ; bun undeploy
+          go-version: 1.21.6
+      - run: cd fiber-mvc-webapp ; bun i -E
+      - run: |
+          cd fiber-mvc-webapp
+          for i in `find . -name '*_test.go' -type f` ; do
+            bun run test -- $i
+          done
+      - run: cd fiber-mvc-webapp ; bun deployment
+      - run: bunx wait-port 8080
+      - run: curl 0:8080/
+      - run: curl 0:8080?name=Max
+      - run: cd fiber-mvc-webapp ; bun stop ; bun undeploy

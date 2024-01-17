@@ -153,6 +153,9 @@ dist
 # Go workspace file
 go.work
 
+# Go app binary
+fiber-mvc-webapp
+
 # Java
 # Compiled class file
 *.class
@@ -333,6 +336,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Bun
+bun.lockb
+
 # NestJS
 # compiled output
 /dist
@@ -349,7 +355,7 @@ pnpm-debug.log*
 /.nyc_output
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/

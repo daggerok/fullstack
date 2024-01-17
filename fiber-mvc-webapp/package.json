@@ -1,0 +1,16 @@
+{
+  "name": "fiber-mvc-webapp",
+  "devDependencies": {
+    "pm2": "5.3.0"
+  },
+  "scripts": {
+    "test": "go test",
+    "deployment": "pm2 start 'go run .' --name app",
+    "ls": "pm2 ls",
+    "show": "pm2 show app",
+    "redeploy": "pm2 restart app",
+    "stop": "pm2 stop app",
+    "undeploy": "pm2 delete app",
+    "kill": "pm2 kill"
+  }
+}
